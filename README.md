@@ -47,8 +47,9 @@
     "mimeType": "application/pdf",
     "fileSize": 147406,
     "displayFileSize": "143 KB",
-    "fileUrl": "/file/temp/2018-03-28/b2dc16ded53a4e30ad0335f719a9e9b4.pdf",
-    "createdDate": "2018-03-28T23:38:46.291",
+    "fileUrl": "/file/temp/2018-03-28/450d4e30d5d642eab8abbb5aa132af69.pdf",
+    "filePath": "/1/2018-03-28/450d4e30d5d642eab8abbb5aa132af69",
+    "createdDate": "2018-03-28T23:52:05.658",
     "numberOfPages": 1,
     "numberOfPictures": 0
 }

@@ -18,19 +18,19 @@ public abstract class ApiPathFileRequestConverterAdapter implements ApiPathFileR
     @Override
     public String convert(FileRequest request) {
         if (request == null) {
-            throw new IllegalArgumentException("Required request.");
+            throw new IllegalArgumentException("require request.");
         }
 
         if (request.getCreatedDate() == null) {
-            throw new IllegalArgumentException("Required createdDate.");
+            throw new IllegalArgumentException("require createdDate.");
         }
 
         if (!hasText(request.getUuid())) {
-            throw new IllegalArgumentException("Required uuid.");
+            throw new IllegalArgumentException("require uuid.");
         }
 
         if (!hasText(request.getExtensionFile())) {
-            throw new IllegalArgumentException("Required extensionFile.");
+            throw new IllegalArgumentException("require extensionFile.");
         }
 
         return getApiPrefix() + FileConf.API_PATH_FILE_FORMAT

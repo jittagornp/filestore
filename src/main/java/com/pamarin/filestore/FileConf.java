@@ -19,14 +19,14 @@ public final class FileConf {
 
     public static String formatDate(LocalDate createdDate) {
         if (createdDate == null) {
-            throw new IllegalArgumentException("Requires createdDate.");
+            throw new IllegalArgumentException("require createdDate.");
         }
         return createdDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 
     public static LocalDate parseDate(String createdDate) {
         if (createdDate == null) {
-            throw new IllegalArgumentException("Requires createdDate.");
+            throw new IllegalArgumentException("require createdDate.");
         }
         return LocalDate.parse(createdDate, DateTimeFormatter.ofPattern(DATE_FORMAT));
     }

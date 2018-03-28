@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2018/03/28
  */
-public abstract class FileUploderAdapter implements FileUploader {
+public abstract class FileUploaderAdapter implements FileUploader {
 
     @Autowired
     private LocalPathFileRequestConverter localPathFileRequestConverter;

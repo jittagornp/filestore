@@ -30,3 +30,7 @@
 - getFileUploader()  คือ file uploader จากข้อ 2 
 - getUserId()  คือ userId ปัจจุบันที่กำลัง Login อยู่  
 ```
+
+# ตัวอย่างการใช้งาน 
+
+https://github.com/pamarin-tech/filestore-example 

@@ -20,15 +20,21 @@ public class LocalPathFileRequestConverterImpl implements LocalPathFileRequestCo
 
         String uuid = request.getUuid();
         if (!(hasText(uuid) && uuid.length() == 32)) {
-            return null;
+            throw new IllegalArgumentException("invalid uuid.");
         }
 
         if (request.getCreatedDate() == null) {
-            return null;
+            throw new IllegalArgumentException("require createdDate.");
+        }
+
+        if (!hasText(request.getExtensionFile())) {
+            throw new IllegalArgumentException("require extensionFile.");
         }
 
         return FileConf.LOCAL_PATH_FILE_FORMAT.replace("{userId}", request.getUserId())
                 .replace("{createdDate}", FileConf.formatDate(request.getCreatedDate()))
-                .replace("{uuid}", request.getUuid());
+                .replace("{uuid}", request.getUuid())
+                .replace("{fileName}", FileConf.FILE_NAME)
+                .replace("{extensionFile}", request.getExtensionFile());
     }
 }

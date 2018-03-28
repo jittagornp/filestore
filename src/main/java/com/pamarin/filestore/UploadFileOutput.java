@@ -3,7 +3,6 @@
  */
 package com.pamarin.filestore;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 
 /**
@@ -21,7 +20,6 @@ public class UploadFileOutput {
 
     private String fileUrl;
 
-    @JsonIgnore
     private String filePath;
 
     private LocalDateTime createdDate;

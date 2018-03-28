@@ -11,9 +11,11 @@ import java.time.format.DateTimeFormatter;
  */
 public final class FileConf {
 
+    public static final String FILE_NAME = "file";
+
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    public static final String LOCAL_PATH_FILE_FORMAT = "/{userId}/{createdDate}/{uuid}";
+    public static final String LOCAL_PATH_FILE_FORMAT = "/{userId}/{createdDate}/{uuid}/{fileName}.{extensionFile}";
 
     public static final String API_PATH_FILE_FORMAT = "/{createdDate}/{uuid}.{extensionFile}";
 

@@ -14,8 +14,6 @@ import java.io.*;
  */
 public abstract class FileManagerAdapter implements FileManager {
 
-    private static final String FILE_NAME = "file";
-
     @Autowired
     private LocalPathFileRequestConverter pathConverter;
 
@@ -78,7 +76,7 @@ public abstract class FileManagerAdapter implements FileManager {
             directory.mkdirs();
         }
 
-        File file = new File(directory, FILE_NAME + "." + request.getExtensionFile());
+        File file = new File(directory, FileConf.FILE_NAME + "." + request.getExtensionFile());
         try (OutputStream outputStream = new FileOutputStream(file)) {
             ByteStreams.copy(inputStream, outputStream);
         } finally {

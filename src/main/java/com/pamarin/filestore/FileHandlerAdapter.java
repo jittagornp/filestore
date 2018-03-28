@@ -40,18 +40,16 @@ public abstract class FileHandlerAdapter {
     @GetMapping("/{createdDate}/{uuid}/exist")
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq.getServletPath());
+        FileRequest request = convert(httpReq.getServletPath().replace("/exist", ""));
         httpResp.getWriter().print(getFileManager().exist(request));
     }
 
     @ResponseBody
-    @DeleteMapping("/delete")
-    public void deleteFile(@RequestParam("url") String url, HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
-        if (hasText(url)) {
-            httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-            FileRequest request = convert(httpReq.getServletPath());
-            httpResp.getWriter().print(getFileManager().delete(request));
-        }
+    @DeleteMapping("/{createdDate}/{uuid}/delete")
+    public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
+        httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        FileRequest request = convert(httpReq.getServletPath().replace("/delete", ""));
+        httpResp.getWriter().print(getFileManager().delete(request));
     }
 
     private void setHeader(File file, HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {

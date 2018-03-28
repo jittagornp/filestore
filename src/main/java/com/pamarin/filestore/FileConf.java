@@ -19,6 +19,11 @@ public final class FileConf {
 
     public static final String API_PATH_FILE_FORMAT = "/{createdDate}/{uuid}.{extensionFile}";
 
+    
+    private FileConf(){
+        
+    }
+    
     public static String formatDate(LocalDate createdDate) {
         if (createdDate == null) {
             throw new IllegalArgumentException("require createdDate.");

@@ -9,7 +9,7 @@
 โดยให้ implement method 
 
 ```
-- getRootPath()  คือ root directory ของ file เช่น /tmp เป็นต้น 
+- getRootPath()  คือ root directory ของ file คือเราจะเก็บ file upload นี้ไว้ที่ไหน เช่น /tmp เป็นต้น 
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempFileManager.java)

@@ -6,7 +6,18 @@
 
 จะเก็บเป็น
 
-> ../{userId}/{createdDate}/{uuid}/file.{extension}
+> ../{userId}/{createdDate}/{uuid}/file.{extension}  
+  
+มุมมอง tree จะเป็น  
+  
+> ../{userId}  
+------ + {createdDate}  
+----------- + {uuid}  
+-------------- + file.{extension}  
+----------- + {uuid}  
+-------------- + file.{extension}  
+----------- + {uuid}  
+-------------- + file.{extension}  
 
 1. เหตุผลที่ต้อง ขึ้นต้นด้วย `userId` 
 - เพราะทำให้เช็คสิทธิ์การเข้าถึงไฟล์ได้ง่าย  โดยไม่จำเป็นต้องไปอ่านค่ามาจาก database เพื่อเช็คสิทธิ์  

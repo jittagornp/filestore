@@ -16,6 +16,7 @@
 
 ### 2. ให้ extends abstract class `ApiPathFileRequestConverterAdapter`
 
+เอาไว้ convert api path -> file request -> local path file   
 โดยให้ implement method 
 
 ```

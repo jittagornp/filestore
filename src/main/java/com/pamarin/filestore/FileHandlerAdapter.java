@@ -22,9 +22,6 @@ import static org.springframework.util.StringUtils.hasText;
 public abstract class FileHandlerAdapter {
 
     @Autowired
-    private ApiPathFileRequestConverter apiPathFileRequestConverter;
-
-    @Autowired
     private FileMimeTypeConverter fileMimeTypeConverter;
 
     protected abstract FileManager getFileManager();
@@ -32,9 +29,11 @@ public abstract class FileHandlerAdapter {
     protected abstract FileUploader getFileUploader();
 
     protected abstract String getUserId();
+    
+    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
 
     private FileRequest convert(String path) {
-        return apiPathFileRequestConverter.convert(path, getUserId());
+        return getApiPathFileRequestConverter().convert(path, getUserId());
     }
 
     @ResponseBody

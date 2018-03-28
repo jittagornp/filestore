@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2018/03/28
@@ -20,9 +21,8 @@ public abstract class FileUploaderAdapter implements FileUploader {
 
     @Autowired
     private LocalPathFileRequestConverter localPathFileRequestConverter;
-    
-    @Autowired
-    private ApiPathFileRequestConverter apiPathFileRequestConverter;
+
+    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
 
     protected abstract FileManager getFileManager();
 
@@ -55,27 +55,39 @@ public abstract class FileUploaderAdapter implements FileUploader {
         output.setDisplayName(input.getFileName());
         output.setFileSize(input.getFileSize());
         output.setDisplayFileSize(FileUtils.byteCountToDisplaySize(input.getFileSize()));
-        output.setFileUrl(apiPathFileRequestConverter.convert(request));
+        output.setFileUrl(getApiPathFileRequestConverter().convert(request));
         output.setFilePath(localPathFileRequestConverter.convert(request));
         output.setMimeType(input.getMimeType());
         output.setCreatedDate(LocalDateTime.now());
         output.setNumberOfPages(getNumberOfPages(request, input));
+        output.setNumberOfPictures(getNumberOfPictures(input));
         return output;
     }
 
-    private boolean isPdfFile(String extensionFile) {
-        return "pdf".equalsIgnoreCase(extensionFile);
+    private boolean isPdfFile(String mimeType) {
+        return "application/pdf".equalsIgnoreCase(mimeType);
     }
 
     private Integer getNumberOfPages(FileRequest request, UploadFileInput input) throws IOException {
-        if (isPdfFile(request.getExtensionFile())) {
-            try (PDDocument document = PDDocument.load(input.getInputStream())) {
+        if (isPdfFile(input.getMimeType())) {
+            try (PDDocument document = PDDocument.load(getFileManager().read(request))) {
                 return document.getNumberOfPages();
             } catch (IOException ex) {
                 return null;
             }
         }
 
+        return null;
+    }
+
+    private Integer getNumberOfPictures(UploadFileInput input) {
+        if (!hasText(input.getMimeType())) {
+            return null;
+        }
+
+        if (input.getMimeType().startsWith("image/")) {
+            return 1;
+        }
         return null;
     }
 }

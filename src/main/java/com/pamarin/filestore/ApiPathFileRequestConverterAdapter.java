@@ -11,7 +11,9 @@ import static org.springframework.util.StringUtils.hasText;
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2018/03/28
  */
-public class ApiPathFileRequestConverterImpl implements ApiPathFileRequestConverter {
+public abstract class ApiPathFileRequestConverterAdapter implements ApiPathFileRequestConverter {
+    
+    protected abstract String getApiPrefix();
 
     @Override
     public String convert(FileRequest request) {
@@ -31,7 +33,7 @@ public class ApiPathFileRequestConverterImpl implements ApiPathFileRequestConver
             throw new IllegalArgumentException("Required extensionFile.");
         }
 
-        return FileConf.API_PATH_FILE_FORMAT
+        return getApiPrefix() + FileConf.API_PATH_FILE_FORMAT
                 .replace("{createdDate}", FileConf.formatDate(request.getCreatedDate()))
                 .replace("{uuid}", request.getUuid())
                 .replace("{extensionFile}", request.getExtensionFile());
@@ -48,6 +50,7 @@ public class ApiPathFileRequestConverterImpl implements ApiPathFileRequestConver
             newPath = getHttpPath(newPath);
         }
 
+        newPath = newPath.substring(getApiPrefix().length());
         String[] fileSpit = org.apache.commons.lang.StringUtils.split(newPath, "/");
         if (fileSpit == null || fileSpit.length < 2) {
             throw new IllegalArgumentException("invalid path.");

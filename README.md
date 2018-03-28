@@ -4,17 +4,16 @@
 
 # วิธีใช้งาน
 
-1. ให้ extends abstract class 
+### 1. ให้ extends abstract class `FileManagerAdapter`
+
+โดยให้ implement method 
+
 ```java
-FileManagerAdapter
+getRootPath() /* คือ root directory ของ file เช่น /tmp เป็นต้น */
 ```
 
-2. ให้ extends abstract class 
-```java
-FileUploderAdapter
-```
+### 2. ให้ extends abstract class `FileUploderAdapter`
 
-3. หากต้องการทำ controller เพื่อ upload file ให้ extends abstract class 
-```java
-FileHandlerAdapter  
-```
+
+### 3. หากต้องการทำ controller เพื่อ upload file ให้ extends abstract class `FileHandlerAdapter`
+

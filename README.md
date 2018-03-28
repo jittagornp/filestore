@@ -47,9 +47,9 @@
     "mimeType": "application/pdf",
     "fileSize": 147406,
     "displayFileSize": "143 KB",
-    "fileUrl": "/file/temp/2018-03-28/a98e4e05af2346beb3a22fcbf959c863.pdf",
-    "filePath": "/1/2018-03-28/a98e4e05af2346beb3a22fcbf959c863/file.pdf",
-    "createdDate": "2018-03-28T23:59:51.352",
+    "getPath": "/file/temp/2018-03-29/ed4d716d42724e6cbc73dd3f686fdc56.pdf",
+    "storePath": "/1/2018-03-29/ed4d716d42724e6cbc73dd3f686fdc56/file.pdf",
+    "createdDate": "2018-03-29T00:03:27.714",
     "numberOfPages": 1,
     "numberOfPictures": 0
 }

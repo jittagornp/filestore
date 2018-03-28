@@ -27,6 +27,7 @@
 
 ### 3. ให้ extends abstract class `FileUploaderAdapter`
 
+เป็น manual upload file เผื่อเอาไว้ upload file ผ่าน java code   
 โดยให้ implement method 
 
 ```

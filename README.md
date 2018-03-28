@@ -1,6 +1,6 @@
 # filestore
 
-> java library สำหรับ spring framework ใช้เพื่อ อ่าน/เขียน/อัพโหลด file system
+> java library สำหรับ spring framework ใช้เพื่อ อ่าน/เขียน/อัพโหลด file
 
 # วิธีใช้งาน
 

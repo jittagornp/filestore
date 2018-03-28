@@ -22,9 +22,9 @@ public abstract class FileUploaderAdapter implements FileUploader {
     @Autowired
     private LocalPathFileRequestConverter localPathFileRequestConverter;
 
-    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
-
     protected abstract FileManager getFileManager();
+
+    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
 
     protected abstract String getUserId();
 

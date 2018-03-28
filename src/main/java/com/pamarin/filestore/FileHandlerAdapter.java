@@ -26,11 +26,11 @@ public abstract class FileHandlerAdapter {
 
     protected abstract FileManager getFileManager();
 
+    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
+
     protected abstract FileUploader getFileUploader();
 
     protected abstract String getUserId();
-    
-    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
 
     private FileRequest convert(String path) {
         return getApiPathFileRequestConverter().convert(path, getUserId());

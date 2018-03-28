@@ -18,9 +18,9 @@ public class UploadFileOutput {
 
     private String displayFileSize;
 
-    private String fileUrl;
+    private String getPath;
 
-    private String filePath;
+    private String storePath;
 
     private LocalDateTime createdDate;
 
@@ -60,20 +60,20 @@ public class UploadFileOutput {
         this.displayFileSize = displayFileSize;
     }
 
-    public String getFileUrl() {
-        return fileUrl;
+    public String getGetPath() {
+        return getPath;
     }
 
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
+    public void setGetPath(String getPath) {
+        this.getPath = getPath;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getStorePath() {
+        return storePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setStorePath(String storePath) {
+        this.storePath = storePath;
     }
 
     public LocalDateTime getCreatedDate() {

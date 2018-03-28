@@ -55,8 +55,8 @@ public abstract class FileUploaderAdapter implements FileUploader {
         output.setDisplayName(input.getFileName());
         output.setFileSize(input.getFileSize());
         output.setDisplayFileSize(FileUtils.byteCountToDisplaySize(input.getFileSize()));
-        output.setFileUrl(getApiPathFileRequestConverter().convert(request));
-        output.setFilePath(localPathFileRequestConverter.convert(request));
+        output.setGetPath(getApiPathFileRequestConverter().convert(request));
+        output.setStorePath(localPathFileRequestConverter.convert(request));
         output.setMimeType(input.getMimeType());
         output.setCreatedDate(LocalDateTime.now());
         output.setNumberOfPages(getNumberOfPages(request, input));

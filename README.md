@@ -12,7 +12,7 @@
 - getRootPath()  คือ root directory ของ file เช่น /tmp เป็นต้น 
 ```
 
-### 2. ให้ extends abstract class `FileUploderAdapter`
+### 2. ให้ extends abstract class `FileUploaderAdapter`
 
 โดยให้ implement method 
 

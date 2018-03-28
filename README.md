@@ -2,6 +2,62 @@
 
 > java library สำหรับ spring framework ใช้เพื่อ อ่าน/เขียน/อัพโหลด file
 
+# แนวคิดการออกแบบ  
+
+> ออกแบบให้ Simple ที่สุด และมีประสิทธิภาพมากที่สุด  
+
+# โครงสร้างการจัดเก็บไฟล์  
+
+จะเก็บเป็น
+
+> ../{userId}/{createdDate}/{uuid}/file.{extension}  
+  
+มุมมอง tree จะเป็น  
+  
+> ../{userId}  
+------ + {createdDate}  
+------------- + {uuid}  
+------------------ + file.{extension}  
+------------- + {uuid}  
+------------------ + file.{extension}  
+------------- + {uuid}  
+------------------ + file.{extension}  
+
+1. เหตุผลที่ต้อง ขึ้นต้นด้วย `userId` 
+- เพราะทำให้เช็คสิทธิ์การเข้าถึงไฟล์ได้ง่าย  โดยไม่จำเป็นต้องไปอ่านค่ามาจาก database เพื่อเช็คสิทธิ์ (เพราะฉะนั้นจะอ่าน/เขียน/ลบ หรือทำอะไรเกี่ยวกับไฟล์ได้เร็ว)  
+- สามารถเอามาหา volumn ได้ว่า user คนนี้ใช้ storage ไปแล้วเท่าไหร่  
+- และเช็ค หรือทำอะไรกับไฟล์ เราสามารถทำเป็นราย user ได้ง่าย เช่นการ migrate ข้อมูลเฉพาะ user เป็นต้น  
+
+2. ที่คั่นด้วยวัน `createdDate` format yyyy-MM-ddd 
+- เพื่อเอาไว้ sort ด้วยวันที่ 
+- มองด้วยตาเปล่า ก็รู้ว่าวันนี้ user upload มาเท่าไหร่
+- สามารถเช็ค หรือทำอะไรกับข้อมูลวันนั้นของ user ได้ง่าย  
+  
+3. ต่อมา `uuid` เพื่อการันตีความ unique 
+
+4. ที่ตั้งชื่อ file เป็น `file` เพราะไม่อยากให้เกิดปัญหาชื่อไฟล์ภาษาไทย หรืออักขระพิเศษบางตัว ที่อาจทำให้ไฟล์เสียหาย  ซึ่งถ้าอยากได้ชื่อไฟล์จริงๆ ที่ upload มาให้ไปเอาที่ database (column display name)    
+
+5. 1 directory uuid จะจัดเก็บไฟล์เพียงแค่ 1 ไฟล์ เพื่อให้ง่ายต่อการ manage  
+
+# Output การ upload  
+
+```json
+{
+    "displayName": "test.pdf",
+    "mimeType": "application/pdf",
+    "fileSize": 147406,
+    "displayFileSize": "143 KB",
+    "fileUrl": "/file/temp/2018-03-28/450d4e30d5d642eab8abbb5aa132af69.pdf",
+    "filePath": "/1/2018-03-28/450d4e30d5d642eab8abbb5aa132af69",
+    "createdDate": "2018-03-28T23:52:05.658",
+    "numberOfPages": 1,
+    "numberOfPictures": 0
+}
+```
+  
+numberOfPages - กรณีเป็น pdf จะทำการนับหน้าให้อัตโนมัติ  
+numberOfPictures - กรณีที่เป็นรูปภาพ attribute นี้เป็นจะเป็น 1 เสมอ 
+
 # วิธีใช้งาน
 
 ### 1. ให้ extends abstract class `FileManagerAdapter`

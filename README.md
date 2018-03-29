@@ -30,7 +30,7 @@ numberOfPictures - กรณีที่เป็นรูปภาพ attribute
 
 ### Store Path  
 
-จะเก็บเป็น
+File System จะเก็บเป็น  
 
 > ../{context}/{userId}/{createdDate}/{uuid}/file.{extension}  
   

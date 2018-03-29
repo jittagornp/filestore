@@ -8,6 +8,8 @@
 
 # โครงสร้างการจัดเก็บไฟล์  
 
+### Store Path  
+
 จะเก็บเป็น
 
 > ../{userId}/{createdDate}/{uuid}/file.{extension}  
@@ -39,19 +41,24 @@
 
 5. 1 directory uuid จะจัดเก็บไฟล์เพียงแค่ 1 ไฟล์ เพื่อให้ง่ายต่อการ manage  
 
+### Access Path  
+
+TODO  
+
 # Output การ upload  
 
 ```json
 {
-    "displayName": "test.pdf",
+    "displayName": "เอกสารการจัดตั้งหน่วยงาน (ข้อ.3).pdf",
     "mimeType": "application/pdf",
-    "fileSize": 147406,
-    "displayFileSize": "143 KB",
-    "getPath": "/file/temp/2018-03-29/ed4d716d42724e6cbc73dd3f686fdc56.pdf",
-    "storePath": "/1/2018-03-29/ed4d716d42724e6cbc73dd3f686fdc56/file.pdf",
-    "createdDate": "2018-03-29T00:03:27.714",
+    "fileSize": 17759,
+    "displayFileSize": "17 KB",
+    "accessPath": "/api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf",
+    "storePath": "/temp/1/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/file.pdf",
+    "createdDate": "2018-03-29T18:34:52.94",
     "numberOfPages": 1,
-    "numberOfPictures": 0
+    "numberOfPictures": 0,
+    "userId": "1"
 }
 ```
   
@@ -60,48 +67,60 @@ numberOfPictures - กรณีที่เป็นรูปภาพ attribute
 
 # วิธีใช้งาน
 
-### 1. ให้ extends abstract class `FileManagerAdapter`
+### 1. ให้ extends abstract class `StorePathFileRequestConverterAdapter`
+
+ไว้ใช้สำหรับแปลง local path file     
+โดยให้ implement method   
+
+```
+- getPrefix()  คือ directory ที่เอาไว้เก็บไฟล์ เช่น /temp หรือ /perm เป็นต้น
+```
+
+[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempStorePathFileRequestConverter.java)
+
+### 2. ให้ extends abstract class `FileManagerAdapter`
 
 โดยให้ implement method 
 
 ```
-- getRootPath()  คือ root directory ของ file คือเราจะเก็บ file upload นี้ไว้ที่ไหน เช่น /tmp เป็นต้น 
+- getStorePathFileRequestConverter() คือ ตัวแปลง local path จากข้อ 1
+- getRootPath()  คือ root directory ของ file เราจะเก็บ file upload นี้ไว้ที่ไหน เช่น /home/efiling เป็นต้น   
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempFileManager.java)
 
-### 2. ให้ extends abstract class `ApiPathFileRequestConverterAdapter`
+### 3. ให้ extends abstract class `AccessPathFileRequestConverterAdapter`
 
-เอาไว้ convert api path -> file request -> local path file   
+เอาไว้ convert access path -> file request -> local path file   
 โดยให้ implement method 
 
 ```
-- getApiPrefix() ตัวอย่างเช่น /file/temp หรือ /api/v1/file/temp เป็นต้น 
+- getPrefix() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/perm เป็นต้น 
 ```
 
-[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempApiPathFileRequestConverter.java)  
+[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverterAdapter.java)  
 
-### 3. ให้ extends abstract class `FileUploaderAdapter`
+### 4. ให้ extends abstract class `FileUploaderAdapter`
 
 เป็น manual upload file เผื่อเอาไว้ upload file ผ่าน java code   
 โดยให้ implement method 
 
 ```
-- getFileManager()  คือ file manager จากข้อ 1 
-- getApiPathFileRequestConverter() คือ api path file request convert จากข้อ 2 
-- getUserId()  คือ userId ปัจจุบันที่กำลัง Login อยู่ 
+- getFileManager()  คือ file manager จากข้อ 2 
+- getAccessPathFileRequestConverter() คือ ตัวแปลง access path จากข้อ 3
+- getStorePathFileRequestConverter()  คือ คือ ตัวแปลง local path จากข้อ 1
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempFileUploader.java)  
 
-### 4. หากต้องการทำ controller เพื่อ upload file ให้ extends abstract class `FileHandlerAdapter`
+### 5. หากต้องการทำ controller เพื่อ upload file ให้ extends abstract class `FileHandlerAdapter`
 
 โดยให้ implement method 
 
 ```
 - getFileManager()  คือ file manager จากข้อ 1 
-- getApiPathFileRequestConverter() คือ api path file request convert จากข้อ 2 
-- getFileUploader()  คือ file uploader จากข้อ 3 
+- getAccessPathFileRequestConverter() คือ ตัวแปลง access path จากข้อ 3
+- getFileUploader()  คือ file uploader จากข้อ 4   
 - getUserId()  คือ userId ปัจจุบันที่กำลัง Login อยู่  
 ```
 

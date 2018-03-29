@@ -13,7 +13,7 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public abstract class AccessPathFileRequestConverterAdapter implements AccessPathFileRequestConverter {
 
-    protected abstract String getContext();
+    protected abstract String getContextPath();
 
     @Override
     public String convert(FileRequest request) {
@@ -37,7 +37,7 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
             throw new IllegalArgumentException("require displayName.");
         }
 
-        return getContext() + FileStore.ACCESS_PATH_FILE_FORMAT
+        return getContextPath() + FileStore.ACCESS_PATH_FILE_FORMAT
                 .replace("{createdDate}", FileStore.formatDate(request.getCreatedDate()))
                 .replace("{uuid}", request.getUuid())
                 .replace("{baseName}", request.getBaseName())
@@ -55,7 +55,7 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
             newPath = getHttpPath(newPath);
         }
 
-        newPath = newPath.substring(getContext().length());
+        newPath = newPath.substring(getContextPath().length());
         String[] fileSpit = org.apache.commons.lang.StringUtils.split(newPath, "/");
         if (fileSpit == null || fileSpit.length < 3) {
             throw new IllegalArgumentException("invalid path.");

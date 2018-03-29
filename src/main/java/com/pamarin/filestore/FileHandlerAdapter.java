@@ -31,10 +31,10 @@ public abstract class FileHandlerAdapter {
     }
 
     @ResponseBody
-    @GetMapping("/{createdDate}/{uuid}/{name}/exist")
+    @GetMapping(value = "/{createdDate}/{uuid}/{name}", params = "exist")
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq.getServletPath().replace("/exist", ""));
+        FileRequest request = convert(httpReq.getServletPath());
         httpResp.getWriter().print(getFileUploader().getFileManager().exist(request));
     }
 

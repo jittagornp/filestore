@@ -68,7 +68,7 @@ File System จะเก็บเป็น
 
 > /{context}/{createdDate}/{uuid}/{baseName}.{extensionFile}  
 
-1. ขึ้นต้นด้วย `context` เพื่อแยกประเทของไฟล์  
+1. ขึ้นต้นด้วย `context` เพื่อแยกประเภทของไฟล์  
 2. `createdDate` เพื่อให้รู้ว่าไฟล์นี้ upload เมื่อไหร้  
 3. `uuid` เพื่อให้ unique  
 4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  

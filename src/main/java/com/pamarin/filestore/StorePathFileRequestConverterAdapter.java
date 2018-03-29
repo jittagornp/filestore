@@ -10,7 +10,7 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public abstract class StorePathFileRequestConverterAdapter implements StorePathFileRequestConverter {
 
-    protected abstract String getPrefix();
+    protected abstract String getContext();
 
     @Override
     public Output convert(FileRequest request) {
@@ -31,7 +31,7 @@ public abstract class StorePathFileRequestConverterAdapter implements StorePathF
             throw new IllegalArgumentException("require extensionFile.");
         }
 
-        String parentPath = getPrefix() + FileStore.STORE_FULL_PATH_FILE_FORMAT
+        String parentPath = getContext() + FileStore.STORE_FULL_PATH_FILE_FORMAT
                 .replace("{userId}", request.getUserId())
                 .replace("{createdDate}", FileStore.formatDate(request.getCreatedDate()))
                 .replace("{uuid}", request.getUuid());

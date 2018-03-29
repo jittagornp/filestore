@@ -28,6 +28,8 @@ public class UploadFileOutput {
 
     private Integer numberOfPictures;
 
+    private String userId;
+
     public String getDisplayName() {
         return displayName;
     }
@@ -104,6 +106,14 @@ public class UploadFileOutput {
 
     public void setNumberOfPictures(Integer numberOfPictures) {
         this.numberOfPictures = numberOfPictures;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

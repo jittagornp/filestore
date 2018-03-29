@@ -26,10 +26,7 @@ public abstract class FileManagerAdapter implements FileManager {
     }
 
     private File getDirectory(FileRequest request) throws IOException {
-        String path = getStorePathFileRequestConverter().convert(request);
-        if (path == null) {
-            throw new IOException("invalid path " + path + ".");
-        }
+        String path = getStorePathFileRequestConverter().convert(request).getParentPath();
         File store = getStore();
         if (!store.exists()) {
             store.mkdirs();

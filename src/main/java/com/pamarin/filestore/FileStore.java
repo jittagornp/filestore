@@ -15,7 +15,7 @@ public final class FileStore {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    public static final String STORE_PATH_FILE_FORMAT = "/{userId}/{createdDate}/{uuid}/{fileName}.{extensionFile}";
+    public static final String STORE_FULL_PATH_FILE_FORMAT = "/{userId}/{createdDate}/{uuid}/{fileName}.{extensionFile}";
 
     public static final String ACCESS_PATH_FILE_FORMAT = "/{createdDate}/{uuid}/{baseName}.{extensionFile}";
 

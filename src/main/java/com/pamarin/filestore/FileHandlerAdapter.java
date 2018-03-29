@@ -14,7 +14,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2017/03/10
  */
@@ -38,16 +37,16 @@ public abstract class FileHandlerAdapter {
     @ResponseBody
     @GetMapping("/{createdDate}/{uuid}/{name}/exist")
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
-        httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq.getServletPath().replace("/exist", ""));
         httpResp.getWriter().print(getFileManager().exist(request));
     }
 
     @ResponseBody
-    @DeleteMapping("/{createdDate}/{uuid}/{name}/delete")
+    @DeleteMapping("/{createdDate}/{uuid}/{name}")
     public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
-        httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq.getServletPath().replace("/delete", ""));
+        httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        FileRequest request = convert(httpReq.getServletPath());
         httpResp.getWriter().print(getFileManager().delete(request));
     }
 
@@ -84,7 +83,7 @@ public abstract class FileHandlerAdapter {
 
     @ResponseBody
     @PostMapping("/upload")
-    public UploadFileOutput handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public UploadFileOutput uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return getFileUploader().upload(convert(file));
     }
 

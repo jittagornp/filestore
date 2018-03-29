@@ -13,7 +13,7 @@ public abstract class StorePathFileRequestConverterAdapter implements StorePathF
     protected abstract String getPrefix();
 
     @Override
-    public String convert(FileRequest request) {
+    public Output convert(FileRequest request) {
         if (request == null) {
             throw new IllegalArgumentException("require request.");
         }
@@ -31,11 +31,17 @@ public abstract class StorePathFileRequestConverterAdapter implements StorePathF
             throw new IllegalArgumentException("require extensionFile.");
         }
 
-        return getPrefix() + FileStore.STORE_PATH_FILE_FORMAT
+        String parentPath = getPrefix() + FileStore.STORE_FULL_PATH_FILE_FORMAT
                 .replace("{userId}", request.getUserId())
                 .replace("{createdDate}", FileStore.formatDate(request.getCreatedDate()))
-                .replace("{uuid}", request.getUuid())
-                .replace("{fileName}", FileStore.FILE_NAME)
-                .replace("{extensionFile}", request.getExtensionFile());
+                .replace("{uuid}", request.getUuid());
+
+        Output output = new Output();
+        output.setParentPath(parentPath.replace("/{fileName}.{extensionFile}", ""));
+        output.setFullPath(
+                parentPath.replace("{fileName}", FileStore.FILE_NAME)
+                        .replace("{extensionFile}", request.getExtensionFile())
+        );
+        return output;
     }
 }

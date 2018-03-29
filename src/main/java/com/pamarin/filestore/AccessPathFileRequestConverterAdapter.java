@@ -12,7 +12,7 @@ import static org.springframework.util.StringUtils.hasText;
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2018/03/28
  */
 public abstract class AccessPathFileRequestConverterAdapter implements AccessPathFileRequestConverter {
-    
+
     protected abstract String getPrefix();
 
     @Override
@@ -33,9 +33,14 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
             throw new IllegalArgumentException("require extensionFile.");
         }
 
+        if (!hasText(request.getBaseName())) {
+            throw new IllegalArgumentException("require displayName.");
+        }
+
         return getPrefix() + FileStore.ACCESS_PATH_FILE_FORMAT
                 .replace("{createdDate}", FileStore.formatDate(request.getCreatedDate()))
                 .replace("{uuid}", request.getUuid())
+                .replace("{baseName}", request.getBaseName())
                 .replace("{extensionFile}", request.getExtensionFile());
     }
 
@@ -52,7 +57,7 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
 
         newPath = newPath.substring(getPrefix().length());
         String[] fileSpit = org.apache.commons.lang.StringUtils.split(newPath, "/");
-        if (fileSpit == null || fileSpit.length < 2) {
+        if (fileSpit == null || fileSpit.length < 3) {
             throw new IllegalArgumentException("invalid path.");
         }
 
@@ -60,22 +65,27 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
     }
 
     private FileRequest buildRequest(String[] fileSpit, String userId) {
-        String createdDateString = fileSpit[fileSpit.length - 2];
+        String createdDate = fileSpit[fileSpit.length - 3];
+        if (!FileStore.isValidDate(createdDate)) {
+            throw new IllegalArgumentException("invalid path, createdDate.");
+        }
+
+        String uuid = fileSpit[fileSpit.length - 2];
+        if (!(hasText(uuid) && uuid.length() == 32)) {
+            throw new IllegalArgumentException("invalid path, uuid.");
+        }
+
         String name = fileSpit[fileSpit.length - 1];
         String[] nameSplit = org.apache.commons.lang.StringUtils.split(name, ".");
         if (nameSplit == null || nameSplit.length < 2) {
             throw new IllegalArgumentException("invalid path, uuid and extensionFile.");
         }
 
-        String uuid = nameSplit[0];
-        if (!(hasText(uuid) && uuid.length() == 32)) {
-            throw new IllegalArgumentException("invalid path, uuid.");
-        }
-
         try {
             FileRequest request = new FileRequest();
             request.setUuid(uuid);
-            request.setCreatedDate(FileStore.parseDate(createdDateString));
+            request.setCreatedDate(FileStore.parseDate(createdDate));
+            request.setBaseName(nameSplit[0]);
             request.setExtensionFile(nameSplit[1]);
             request.setUserId(userId);
             return request;

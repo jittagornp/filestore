@@ -5,6 +5,8 @@ package com.pamarin.filestore;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,8 +26,6 @@ public abstract class FileUploaderAdapter implements FileUploader {
 
     protected abstract AccessPathFileRequestConverter getAccessPathFileRequestConverter();
 
-    protected abstract String getUserId();
-
     private String randomUuid() {
         return UUID.randomUUID().toString().replace("-", "");
     }
@@ -39,12 +39,13 @@ public abstract class FileUploaderAdapter implements FileUploader {
         }
     }
 
-    private FileRequest convert(UploadFileInput input) {
+    private FileRequest convert(UploadFileInput input) throws UnsupportedEncodingException {
         FileRequest request = new FileRequest();
         request.setCreatedDate(LocalDate.now());
+        request.setBaseName(encodeBaseName(FilenameUtils.getBaseName(input.getFileName())));
         request.setExtensionFile(FilenameUtils.getExtension(input.getFileName()));
         request.setUuid(randomUuid());
-        request.setUserId(getUserId());
+        request.setUserId(input.getUserId());
         return request;
     }
 
@@ -87,5 +88,16 @@ public abstract class FileUploaderAdapter implements FileUploader {
             return 1;
         }
         return null;
+    }
+
+    private String encodeBaseName(String baseName) throws UnsupportedEncodingException {
+        return baseName.replace(".", " ")
+                .replace("(", " ")
+                .replace(")", " ")
+                .replace("[", " ")
+                .replace("]", " ")
+                .replace("{", " ")
+                .replace("}", " ")
+                .replaceAll("\\s+", "_");
     }
 }

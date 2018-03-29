@@ -18,6 +18,8 @@ public class FileRequest {
 
     private String extensionFile;
 
+    private String baseName;
+
     public String getUserId() {
         return userId;
     }
@@ -48,6 +50,14 @@ public class FileRequest {
 
     public void setExtensionFile(String extensionFile) {
         this.extensionFile = extensionFile;
+    }
+
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
     }
 
 }

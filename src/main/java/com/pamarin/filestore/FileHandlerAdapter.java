@@ -36,7 +36,7 @@ public abstract class FileHandlerAdapter {
     }
 
     @ResponseBody
-    @GetMapping("/{createdDate}/{uuid}/exist")
+    @GetMapping("/{createdDate}/{uuid}/{name}/exist")
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq.getServletPath().replace("/exist", ""));
@@ -44,7 +44,7 @@ public abstract class FileHandlerAdapter {
     }
 
     @ResponseBody
-    @DeleteMapping("/{createdDate}/{uuid}/delete")
+    @DeleteMapping("/{createdDate}/{uuid}/{name}/delete")
     public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq.getServletPath().replace("/delete", ""));
@@ -65,7 +65,7 @@ public abstract class FileHandlerAdapter {
     }
 
     @ResponseBody
-    @GetMapping("/{createdDate}/{uuid}")
+    @GetMapping("/{createdDate}/{uuid}/{name}")
     public void loadFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         try {
             FileRequest request = convert(httpReq.getServletPath());
@@ -94,6 +94,7 @@ public abstract class FileHandlerAdapter {
         input.setFileSize(file.getSize());
         input.setInputStream(file.getInputStream());
         input.setMimeType(file.getContentType());
+        input.setUserId(getUserId());
         return input;
     }
 }

@@ -17,13 +17,12 @@ public final class FileStore {
 
     public static final String STORE_PATH_FILE_FORMAT = "/{userId}/{createdDate}/{uuid}/{fileName}.{extensionFile}";
 
-    public static final String ACCESS_PATH_FILE_FORMAT = "/{createdDate}/{uuid}.{extensionFile}";
+    public static final String ACCESS_PATH_FILE_FORMAT = "/{createdDate}/{uuid}/{baseName}.{extensionFile}";
 
-    
-    private FileStore(){
-        
+    private FileStore() {
+
     }
-    
+
     public static String formatDate(LocalDate createdDate) {
         if (createdDate == null) {
             throw new IllegalArgumentException("require createdDate.");
@@ -36,5 +35,13 @@ public final class FileStore {
             throw new IllegalArgumentException("require createdDate.");
         }
         return LocalDate.parse(createdDate, DateTimeFormatter.ofPattern(DATE_FORMAT));
+    }
+
+    public static boolean isValidDate(String createdDate) {
+        try {
+            return parseDate(createdDate) != null;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 }

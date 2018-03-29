@@ -18,6 +18,8 @@ public class UploadFileInput {
 
     private String mimeType;
 
+    private String userId;
+
     public InputStream getInputStream() {
         return inputStream;
     }
@@ -48,6 +50,14 @@ public class UploadFileInput {
 
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

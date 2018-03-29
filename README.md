@@ -16,8 +16,8 @@
   
 มุมมอง tree จะเป็น  
   
-> ../{context}
------- + /{userId}  
+> ../{context}    
+------ + /{userId}    
 ------------ + /{createdDate}  
 ------------------- + /{uuid}  
 ------------------------ + /file.{extension}  

@@ -108,7 +108,6 @@ numberOfPictures - กรณีที่เป็นรูปภาพ attribute
 ```
 - getFileManager()  คือ file manager จากข้อ 2 
 - getAccessPathFileRequestConverter() คือ ตัวแปลง access path จากข้อ 3
-- getStorePathFileRequestConverter()  คือ คือ ตัวแปลง local path จากข้อ 1
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempFileUploader.java)  
@@ -118,8 +117,6 @@ numberOfPictures - กรณีที่เป็นรูปภาพ attribute
 โดยให้ implement method 
 
 ```
-- getFileManager()  คือ file manager จากข้อ 1 
-- getAccessPathFileRequestConverter() คือ ตัวแปลง access path จากข้อ 3
 - getFileUploader()  คือ file uploader จากข้อ 4   
 - getUserId()  คือ userId ปัจจุบันที่กำลัง Login อยู่  
 ```

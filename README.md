@@ -69,7 +69,7 @@ File System จะเก็บเป็น
 > /{context}/{createdDate}/{uuid}/{baseName}.{extensionFile}  
 
 1. ขึ้นต้นด้วย `context` เพื่อแยกประเภทของไฟล์  
-2. `createdDate` เพื่อให้รู้ว่าไฟล์นี้ upload เมื่อไหร้  
+2. `createdDate` เพื่อให้รู้ว่าไฟล์นี้ upload เมื่อไหร่    
 3. `uuid` เพื่อให้ unique  
 4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  (เป็นแค่ display name เท่านั้น)
 5. `extensionFile` นามสกุลไฟล์  
@@ -109,7 +109,7 @@ File System จะเก็บเป็น
 - getContextPath() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/perm เป็นต้น 
 ```
 
-[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverterAdapter.java)  
+[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverter.java)  
 
 ### 4. ให้ extends abstract class `FileUploaderAdapter`
 

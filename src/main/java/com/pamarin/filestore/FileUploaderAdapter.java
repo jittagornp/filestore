@@ -11,7 +11,6 @@ import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
@@ -19,12 +18,11 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public abstract class FileUploaderAdapter implements FileUploader {
 
-    @Autowired
-    private LocalPathFileRequestConverter localPathFileRequestConverter;
-
     protected abstract FileManager getFileManager();
 
-    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
+    protected abstract StorePathFileRequestConverter getStorePathFileRequestConverter();
+
+    protected abstract AccessPathFileRequestConverter getAccessPathFileRequestConverter();
 
     protected abstract String getUserId();
 
@@ -55,8 +53,8 @@ public abstract class FileUploaderAdapter implements FileUploader {
         output.setDisplayName(input.getFileName());
         output.setFileSize(input.getFileSize());
         output.setDisplayFileSize(FileUtils.byteCountToDisplaySize(input.getFileSize()));
-        output.setGetPath(getApiPathFileRequestConverter().convert(request));
-        output.setStorePath(localPathFileRequestConverter.convert(request));
+        output.setAccessPath(getAccessPathFileRequestConverter().convert(request));
+        output.setStorePath(getStorePathFileRequestConverter().convert(request));
         output.setMimeType(input.getMimeType());
         output.setCreatedDate(LocalDateTime.now());
         output.setNumberOfPages(getNumberOfPages(request, input));

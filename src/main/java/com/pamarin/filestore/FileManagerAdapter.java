@@ -5,7 +5,6 @@ package com.pamarin.filestore;
 
 import com.google.common.io.ByteStreams;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 
@@ -14,8 +13,7 @@ import java.io.*;
  */
 public abstract class FileManagerAdapter implements FileManager {
 
-    @Autowired
-    private LocalPathFileRequestConverter pathConverter;
+    protected abstract StorePathFileRequestConverter getStorePathFileRequestConverter();
 
     protected abstract String getRootPath();
 
@@ -28,7 +26,7 @@ public abstract class FileManagerAdapter implements FileManager {
     }
 
     private File getDirectory(FileRequest request) throws IOException {
-        String path = pathConverter.convert(request);
+        String path = getStorePathFileRequestConverter().convert(request);
         if (path == null) {
             throw new IOException("invalid path " + path + ".");
         }
@@ -76,7 +74,7 @@ public abstract class FileManagerAdapter implements FileManager {
             directory.mkdirs();
         }
 
-        File file = new File(directory, FileConf.FILE_NAME + "." + request.getExtensionFile());
+        File file = new File(directory, FileStore.FILE_NAME + "." + request.getExtensionFile());
         try (OutputStream outputStream = new FileOutputStream(file)) {
             ByteStreams.copy(inputStream, outputStream);
         } finally {

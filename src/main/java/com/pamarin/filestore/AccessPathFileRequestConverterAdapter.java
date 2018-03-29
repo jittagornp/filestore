@@ -11,9 +11,9 @@ import static org.springframework.util.StringUtils.hasText;
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2018/03/28
  */
-public abstract class ApiPathFileRequestConverterAdapter implements ApiPathFileRequestConverter {
+public abstract class AccessPathFileRequestConverterAdapter implements AccessPathFileRequestConverter {
     
-    protected abstract String getApiPrefix();
+    protected abstract String getPrefix();
 
     @Override
     public String convert(FileRequest request) {
@@ -33,8 +33,8 @@ public abstract class ApiPathFileRequestConverterAdapter implements ApiPathFileR
             throw new IllegalArgumentException("require extensionFile.");
         }
 
-        return getApiPrefix() + FileConf.API_PATH_FILE_FORMAT
-                .replace("{createdDate}", FileConf.formatDate(request.getCreatedDate()))
+        return getPrefix() + FileStore.ACCESS_PATH_FILE_FORMAT
+                .replace("{createdDate}", FileStore.formatDate(request.getCreatedDate()))
                 .replace("{uuid}", request.getUuid())
                 .replace("{extensionFile}", request.getExtensionFile());
     }
@@ -50,7 +50,7 @@ public abstract class ApiPathFileRequestConverterAdapter implements ApiPathFileR
             newPath = getHttpPath(newPath);
         }
 
-        newPath = newPath.substring(getApiPrefix().length());
+        newPath = newPath.substring(getPrefix().length());
         String[] fileSpit = org.apache.commons.lang.StringUtils.split(newPath, "/");
         if (fileSpit == null || fileSpit.length < 2) {
             throw new IllegalArgumentException("invalid path.");
@@ -75,7 +75,7 @@ public abstract class ApiPathFileRequestConverterAdapter implements ApiPathFileR
         try {
             FileRequest request = new FileRequest();
             request.setUuid(uuid);
-            request.setCreatedDate(FileConf.parseDate(createdDateString));
+            request.setCreatedDate(FileStore.parseDate(createdDateString));
             request.setExtensionFile(nameSplit[1]);
             request.setUserId(userId);
             return request;

@@ -3,14 +3,14 @@
  */
 package com.pamarin.filestore;
 
-import org.springframework.stereotype.Component;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2017/03/10
  */
-@Component
-public class LocalPathFileRequestConverterImpl implements LocalPathFileRequestConverter {
+public abstract class StorePathFileRequestConverterAdapter implements StorePathFileRequestConverter {
+
+    protected abstract String getPrefix();
 
     @Override
     public String convert(FileRequest request) {
@@ -31,10 +31,11 @@ public class LocalPathFileRequestConverterImpl implements LocalPathFileRequestCo
             throw new IllegalArgumentException("require extensionFile.");
         }
 
-        return FileConf.LOCAL_PATH_FILE_FORMAT.replace("{userId}", request.getUserId())
-                .replace("{createdDate}", FileConf.formatDate(request.getCreatedDate()))
+        return getPrefix() + FileStore.STORE_PATH_FILE_FORMAT
+                .replace("{userId}", request.getUserId())
+                .replace("{createdDate}", FileStore.formatDate(request.getCreatedDate()))
                 .replace("{uuid}", request.getUuid())
-                .replace("{fileName}", FileConf.FILE_NAME)
+                .replace("{fileName}", FileStore.FILE_NAME)
                 .replace("{extensionFile}", request.getExtensionFile());
     }
 }

@@ -7,9 +7,10 @@ package com.pamarin.filestore;
  * @author jittagornp &lt;http://jittagornp.me&gt;
  * create : 2017/03/10
  */
-@FunctionalInterface
-public interface LocalPathFileRequestConverter {
+public interface AccessPathFileRequestConverter {
 
     String convert(FileRequest request);
+
+    FileRequest convert(String path, String userId);
 
 }

@@ -14,7 +14,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.springframework.util.StringUtils.hasText;
 
 /**
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2017/03/10
@@ -26,14 +25,14 @@ public abstract class FileHandlerAdapter {
 
     protected abstract FileManager getFileManager();
 
-    protected abstract ApiPathFileRequestConverter getApiPathFileRequestConverter();
+    protected abstract AccessPathFileRequestConverter getAccessPathFileRequestConverter();
 
     protected abstract FileUploader getFileUploader();
 
     protected abstract String getUserId();
 
     private FileRequest convert(String path) {
-        return getApiPathFileRequestConverter().convert(path, getUserId());
+        return getAccessPathFileRequestConverter().convert(path, getUserId());
     }
 
     @ResponseBody

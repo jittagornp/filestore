@@ -18,7 +18,7 @@ public class UploadFileOutput {
 
     private String displayFileSize;
 
-    private String getPath;
+    private String accessPath;
 
     private String storePath;
 
@@ -60,12 +60,12 @@ public class UploadFileOutput {
         this.displayFileSize = displayFileSize;
     }
 
-    public String getGetPath() {
-        return getPath;
+    public String getAccessPath() {
+        return accessPath;
     }
 
-    public void setGetPath(String getPath) {
-        this.getPath = getPath;
+    public void setAccessPath(String accessPath) {
+        this.accessPath = accessPath;
     }
 
     public String getStorePath() {

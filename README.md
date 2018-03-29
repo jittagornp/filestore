@@ -89,6 +89,8 @@ File System จะเก็บเป็น
 
 ### 2. ให้ extends abstract class `FileManagerAdapter`
 
+เป็นตัวกลางในการ read/write/delete file  
+
 โดยให้ implement method 
 
 ```

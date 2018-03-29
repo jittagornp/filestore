@@ -6,6 +6,26 @@
 
 > ออกแบบให้ Simple ที่สุด และมีประสิทธิภาพมากที่สุด  
 
+# Output การ upload  
+
+```json
+{
+    "displayName": "เอกสารการจัดตั้งหน่วยงาน (ข้อ.3).pdf",
+    "mimeType": "application/pdf",
+    "fileSize": 17759,
+    "displayFileSize": "17 KB",
+    "accessPath": "/api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf",
+    "storePath": "/temp/1/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/file.pdf",
+    "createdDate": "2018-03-29T18:34:52.94",
+    "numberOfPages": 1,
+    "numberOfPictures": 0,
+    "userId": "1"
+}
+```
+  
+numberOfPages - กรณีเป็น pdf จะทำการนับหน้าให้อัตโนมัติ  
+numberOfPictures - กรณีที่เป็นรูปภาพ attribute นี้เป็นจะเป็น 1 เสมอ   
+
 # โครงสร้างการจัดเก็บไฟล์  
 
 ### Store Path  
@@ -53,26 +73,6 @@
 3. `uuid` เพื่อให้ unique  
 4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  
 5. `extensionFile` นามสกุลไฟล์  
-
-# Output การ upload  
-
-```json
-{
-    "displayName": "เอกสารการจัดตั้งหน่วยงาน (ข้อ.3).pdf",
-    "mimeType": "application/pdf",
-    "fileSize": 17759,
-    "displayFileSize": "17 KB",
-    "accessPath": "/api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf",
-    "storePath": "/temp/1/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/file.pdf",
-    "createdDate": "2018-03-29T18:34:52.94",
-    "numberOfPages": 1,
-    "numberOfPictures": 0,
-    "userId": "1"
-}
-```
-  
-numberOfPages - กรณีเป็น pdf จะทำการนับหน้าให้อัตโนมัติ  
-numberOfPictures - กรณีที่เป็นรูปภาพ attribute นี้เป็นจะเป็น 1 เสมอ 
 
 # วิธีใช้งาน
 

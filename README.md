@@ -43,15 +43,16 @@
 
 ```json
 {
-    "displayName": "test.pdf",
+    "displayName": "เอกสารการจัดตั้งหน่วยงาน (ข้อ.3).pdf",
     "mimeType": "application/pdf",
-    "fileSize": 147406,
-    "displayFileSize": "143 KB",
-    "getPath": "/file/temp/2018-03-29/ed4d716d42724e6cbc73dd3f686fdc56.pdf",
-    "storePath": "/1/2018-03-29/ed4d716d42724e6cbc73dd3f686fdc56/file.pdf",
-    "createdDate": "2018-03-29T00:03:27.714",
+    "fileSize": 17759,
+    "displayFileSize": "17 KB",
+    "accessPath": "/api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf",
+    "storePath": "/temp/1/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/file.pdf",
+    "createdDate": "2018-03-29T18:34:52.94",
     "numberOfPages": 1,
-    "numberOfPictures": 0
+    "numberOfPictures": 0,
+    "userId": "1"
 }
 ```
   

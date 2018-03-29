@@ -106,7 +106,7 @@ File System จะเก็บเป็น
 โดยให้ implement method 
 
 ```
-- getContextPath() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/perm เป็นต้น 
+- getContextPath() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/file/perm เป็นต้น 
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverter.java)  

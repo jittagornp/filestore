@@ -71,7 +71,7 @@ File System จะเก็บเป็น
 1. ขึ้นต้นด้วย `context` เพื่อแยกประเภทของไฟล์  
 2. `createdDate` เพื่อให้รู้ว่าไฟล์นี้ upload เมื่อไหร้  
 3. `uuid` เพื่อให้ unique  
-4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  
+4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  (เป็นแค่ display name เท่านั้น)
 5. `extensionFile` นามสกุลไฟล์  
 
 # วิธีใช้งาน
@@ -82,12 +82,14 @@ File System จะเก็บเป็น
 โดยให้ implement method   
 
 ```
-- getPrefix()  คือ directory ที่เอาไว้เก็บไฟล์ เช่น /temp หรือ /perm เป็นต้น
+- getContext()  คือ directory ที่เอาไว้เก็บไฟล์ เช่น /temp หรือ /perm เป็นต้น
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempStorePathFileRequestConverter.java)
 
 ### 2. ให้ extends abstract class `FileManagerAdapter`
+
+เป็นตัวกลางในการ read/write/delete file  
 
 โดยให้ implement method 
 
@@ -104,7 +106,7 @@ File System จะเก็บเป็น
 โดยให้ implement method 
 
 ```
-- getPrefix() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/perm เป็นต้น 
+- getContext() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/perm เป็นต้น 
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverterAdapter.java)  

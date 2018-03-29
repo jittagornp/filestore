@@ -20,4 +20,6 @@ public interface FileManager {
     void write(FileRequest request, InputStream inputStream) throws IOException;
 
     boolean delete(FileRequest request) throws IOException;
+    
+    StorePathFileRequestConverter getStorePathFileRequestConverter();
 }

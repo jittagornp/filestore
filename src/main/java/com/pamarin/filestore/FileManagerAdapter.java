@@ -13,8 +13,6 @@ import java.io.*;
  */
 public abstract class FileManagerAdapter implements FileManager {
 
-    protected abstract StorePathFileRequestConverter getStorePathFileRequestConverter();
-
     protected abstract String getRootPath();
 
     private File getStore() {

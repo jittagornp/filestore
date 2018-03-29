@@ -22,16 +22,12 @@ public abstract class FileHandlerAdapter {
     @Autowired
     private FileMimeTypeConverter fileMimeTypeConverter;
 
-    protected abstract FileManager getFileManager();
-
-    protected abstract AccessPathFileRequestConverter getAccessPathFileRequestConverter();
-
     protected abstract FileUploader getFileUploader();
 
     protected abstract String getUserId();
 
     private FileRequest convert(String path) {
-        return getAccessPathFileRequestConverter().convert(path, getUserId());
+        return getFileUploader().getAccessPathFileRequestConverter().convert(path, getUserId());
     }
 
     @ResponseBody
@@ -39,7 +35,7 @@ public abstract class FileHandlerAdapter {
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq.getServletPath().replace("/exist", ""));
-        httpResp.getWriter().print(getFileManager().exist(request));
+        httpResp.getWriter().print(getFileUploader().getFileManager().exist(request));
     }
 
     @ResponseBody
@@ -47,11 +43,11 @@ public abstract class FileHandlerAdapter {
     public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq.getServletPath());
-        httpResp.getWriter().print(getFileManager().delete(request));
+        httpResp.getWriter().print(getFileUploader().getFileManager().delete(request));
     }
 
-    private void setHeader(File file, HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
-        String fileName = URLEncoder.encode(file.getName(), "utf-8");
+    private void setHeader(File file, String fileName, HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
+        fileName = URLEncoder.encode(fileName, "utf-8");
         if (httpReq.getParameter("preview") != null) {
             httpResp.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
         } else {
@@ -68,8 +64,8 @@ public abstract class FileHandlerAdapter {
     public void loadFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         try {
             FileRequest request = convert(httpReq.getServletPath());
-            File file = getFileManager().read(request);
-            setHeader(file, httpReq, httpResp);
+            File file = getFileUploader().getFileManager().read(request);
+            setHeader(file, request.getBaseName() + "." + request.getExtensionFile(), httpReq, httpResp);
             try (InputStream inputStream = new FileInputStream(file); OutputStream outputStream = httpResp.getOutputStream()) {
                 ByteStreams.copy(inputStream, outputStream);
             }

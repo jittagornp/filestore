@@ -6,7 +6,6 @@ package com.pamarin.filestore;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,12 +18,6 @@ import static org.springframework.util.StringUtils.hasText;
  * @author jittagornp &lt;http://jittagornp.me&gt; create : 2018/03/28
  */
 public abstract class FileUploaderAdapter implements FileUploader {
-
-    protected abstract FileManager getFileManager();
-
-    protected abstract StorePathFileRequestConverter getStorePathFileRequestConverter();
-
-    protected abstract AccessPathFileRequestConverter getAccessPathFileRequestConverter();
 
     private String randomUuid() {
         return UUID.randomUUID().toString().replace("-", "");
@@ -55,7 +48,7 @@ public abstract class FileUploaderAdapter implements FileUploader {
         output.setFileSize(input.getFileSize());
         output.setDisplayFileSize(FileUtils.byteCountToDisplaySize(input.getFileSize()));
         output.setAccessPath(getAccessPathFileRequestConverter().convert(request));
-        output.setStorePath(getStorePathFileRequestConverter().convert(request).getFullPath());
+        output.setStorePath(getFileManager().getStorePathFileRequestConverter().convert(request).getFullPath());
         output.setMimeType(input.getMimeType());
         output.setCreatedDate(LocalDateTime.now());
         output.setNumberOfPages(getNumberOfPages(request, input));

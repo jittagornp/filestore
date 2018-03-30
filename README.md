@@ -6,6 +6,10 @@
 
 > ออกแบบให้ Simple ที่สุด และมีประสิทธิภาพมากที่สุด  
 
+- เรียบง่าย สามารถอ่าน และทำความเข้าใจได้ง่าย  
+- ปลอดภัย สามารถจำกัดสิทธิ์การเข้าถึง file ได้ด้วยโครงสร้างไฟล์เอง  
+- เร็ว ไม่จำเป็นต้องไปเช็คสิทธิ์จาก database  
+
 # Output การ upload  
 
 ```json
@@ -46,10 +50,23 @@ File System จะเก็บเป็น
 ------------------- + /{uuid}  
 ------------------------ + /file.{extension}  
 
-1. ขึ้นต้นด้วย `context` เพราะต้องการแยกประเภทของไฟล์ เช่น /temp หรือ /perm เป็นต้น  
+**ตัวอย่าง**   
+
+> C:\filestore\temp\1\2018-03-29\77ab5f8406aa441da6ee6e80fe02f17a\file.pdf  
+
+- C:\filestore คือ root 
+- 1 คือ userId (id เจ้าของไฟล์)   
+- temp คือ context  
+- 2018-03-29 คือ createdDate  
+- 77ab5f8406aa441da6ee6e80fe02f17a คือ uuid  
+- file.pdf คือ ไฟล์ที่จัดเก็บ  
+
+**คำอธิบาย**
+
+1. ขึ้นต้นด้วย `context` เพราะต้องการแยกประเภทของไฟล์ เช่น /temp /perm หรืออื่นๆ 
 
 2. ต่อมา `userId` 
-- ทำให้เช็คสิทธิ์การเข้าถึงไฟล์ได้ง่าย โดยไม่จำเป็นต้องไปอ่านค่ามาจาก database เพื่อเช็คสิทธิ์ (เพราะฉะนั้นจะอ่าน/เขียน/ลบ หรือทำอะไรเกี่ยวกับไฟล์ได้เร็ว)  
+- ทำให้จำกัดสิทธิ์การเข้าถึงไฟล์ได้ง่าย โดยไม่จำเป็นต้องไปอ่านค่ามาจาก database เพื่อเช็คสิทธิ์ (เพราะฉะนั้นจะอ่าน/เขียน/ลบ หรือทำอะไรเกี่ยวกับไฟล์ได้เร็ว)  
 - สามารถเอามาหา volumn ได้ว่า user คนนี้ใช้ storage ไปแล้วเท่าไหร่  
 - และเช็ค หรือทำอะไรกับไฟล์ เราสามารถทำเป็นราย user ได้ง่าย เช่นการ migrate ข้อมูลเฉพาะ user เป็นต้น  
 
@@ -69,20 +86,24 @@ File System จะเก็บเป็น
 > /{context}/{createdDate}/{uuid}/{baseName}.{extensionFile}  
 
 1. ขึ้นต้นด้วย `context` เพื่อแยกประเภทของไฟล์  
-2. `createdDate` เพื่อให้รู้ว่าไฟล์นี้ upload เมื่อไหร้  
+2. `createdDate` เพื่อให้รู้ว่าไฟล์นี้ upload เมื่อไหร่    
 3. `uuid` เพื่อให้ unique  
 4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  (เป็นแค่ display name เท่านั้น)
 5. `extensionFile` นามสกุลไฟล์  
+
+**ตัวอย่าง**
+
+> /api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf  
 
 # วิธีใช้งาน
 
 ### 1. ให้ extends abstract class `StorePathFileRequestConverterAdapter`
 
-ไว้ใช้สำหรับแปลง local path file     
+ไว้ใช้สำหรับแปลง file request -> local path file (system)       
 โดยให้ implement method   
 
 ```
-- getContext()  คือ directory ที่เอาไว้เก็บไฟล์ เช่น /temp หรือ /perm เป็นต้น
+- getContextPath()  คือ directory ที่เอาไว้เก็บไฟล์ เช่น /temp หรือ /perm เป็นต้น
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempStorePathFileRequestConverter.java)
@@ -106,10 +127,10 @@ File System จะเก็บเป็น
 โดยให้ implement method 
 
 ```
-- getContext() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/perm เป็นต้น 
+- getContextPath() ตัวอย่างเช่น /api/v1/file/temp หรือ /api/v1/file/perm เป็นต้น 
 ```
 
-[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverterAdapter.java)  
+[ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempAccessPathFileRequestConverter.java)  
 
 ### 4. ให้ extends abstract class `FileUploaderAdapter`
 

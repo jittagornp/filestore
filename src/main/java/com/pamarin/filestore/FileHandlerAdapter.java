@@ -66,7 +66,7 @@ public abstract class FileHandlerAdapter {
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq);
-        httpResp.getWriter().print(data("exist", getFileUploader().getFileManager().exist(request)));
+        httpResp.getWriter().print(data("existed", getFileUploader().getFileManager().exist(request)));
     }
 
     @ResponseBody

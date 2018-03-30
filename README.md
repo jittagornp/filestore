@@ -91,6 +91,10 @@ File System จะเก็บเป็น
 4. `baseName` เพื่อเอาไว้แสดงชื่อไฟล์  จริงๆ จะแก้เป็นอะไรก็ได้  ไม่มีผลในการ access file  (เป็นแค่ display name เท่านั้น)
 5. `extensionFile` นามสกุลไฟล์  
 
+**ตัวอย่าง**
+
+> /api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf  
+
 # วิธีใช้งาน
 
 ### 1. ให้ extends abstract class `StorePathFileRequestConverterAdapter`

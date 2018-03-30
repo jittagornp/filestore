@@ -33,7 +33,7 @@ public abstract class FileHandlerAdapter {
     private String decideUserId(HttpServletRequest httpReq) {
         if (httpReq.getParameter("token") != null) {
             try {
-                return verifyShareToken(httpReq.getParameter("token"));
+                return verifyGrantToken(httpReq.getParameter("token"));
             } catch (Exception ex) {
                 return getUserId(httpReq);
             }
@@ -42,12 +42,12 @@ public abstract class FileHandlerAdapter {
         return getUserId(httpReq);
     }
 
-    public String getShareToken(String userId) {
-        throw new UnsupportedOperationException("not support getShareToken(String userId).");
+    public String signGrantToken(String userId) {
+        throw new UnsupportedOperationException("not support signGrantToken(String userId).");
     }
 
-    public String verifyShareToken(String token) {
-        throw new UnsupportedOperationException("not support verifyShareToken(String token).");
+    public String verifyGrantToken(String token) {
+        throw new UnsupportedOperationException("not support verifyGrantToken(String token).");
     }
 
     private FileRequest convert(HttpServletRequest httpReq) {
@@ -112,7 +112,7 @@ public abstract class FileHandlerAdapter {
     @PostMapping(value = "/{createdDate}/{uuid}/{name}", params = "share")
     public void shareFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        httpResp.getOutputStream().print(data("link", httpReq.getRequestURI() + "?token=" + getShareToken(decideUserId(httpReq))));
+        httpResp.getOutputStream().print(data("link", httpReq.getRequestURI() + "?token=" + signGrantToken(decideUserId(httpReq))));
     }
 
     @ResponseBody

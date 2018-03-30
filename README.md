@@ -9,7 +9,7 @@
 > ออกแบบให้ Simple ที่สุด และมีประสิทธิภาพมากที่สุด  
 
 - เรียบง่าย สามารถอ่าน และทำความเข้าใจได้ง่าย  
-- ปลอดภัย สามารถจำกัดสิทธิ์การเข้าถึง file ได้ด้วยโครงสร้างไฟล์เอง  
+- ปลอดภัย สามารถจำกัดสิทธิ์การเข้าถึงไฟล์ ได้ด้วยโครงสร้างไฟล์เอง  
 - เร็ว ไม่จำเป็นต้องไปเช็คสิทธิ์จาก database  
 
 # Output การ upload  
@@ -99,7 +99,7 @@ File System จะเก็บเป็น
 
 # API
 
-**Upload File**  
+**อัพโหลดไฟล์ (Upload File)**  
 
 > http `POST` => /{context}/upload
 
@@ -124,12 +124,17 @@ output
 }
 ```
 
-**Get File**  
+**เข้าถึงไฟล์ (Access File)**  
 
-> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}  /* for download file */  
-> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?preview  
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}  /* สำหรับ download file */    
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?preview  /* สำหรับดู file /  
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?token=xxxxx /* สำหรับเข้าถึง file ที่มีการแชร์ด้วย token */    
 
-**Check File**
+ตัวอย่าง
+
+> /api/file/temp/2018-03-30/50b9f9c0f3404a7d93e9bf8ffedbbef6/test.pdf?preview  
+
+**ตรวจสอบไฟล์ (Check File)**
 
 > http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?exist   
 
@@ -137,11 +142,15 @@ output
 
 ```json
 {
-    "exist": true
+    "existed": true
 }
 ```
 
-**Delete File**
+ตัวอย่าง
+
+> /api/file/temp/2018-03-30/50b9f9c0f3404a7d93e9bf8ffedbbef6/test.pdf?exist  
+
+**ลบไฟล์ (Delete File)**
 
 > http `DELETE` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}
 
@@ -153,7 +162,7 @@ output
 }
 ```
 
-**Share File**
+**แชร์ไฟล์ (Share File)**
 
 > http `POST` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?share
 

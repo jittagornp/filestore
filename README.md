@@ -99,7 +99,7 @@ File System จะเก็บเป็น
 
 ### 1. ให้ extends abstract class `StorePathFileRequestConverterAdapter`
 
-ไว้ใช้สำหรับแปลง local path file     
+ไว้ใช้สำหรับแปลง file request -> local path file (system)       
 โดยให้ implement method   
 
 ```

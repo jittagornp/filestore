@@ -78,7 +78,7 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
         String name = fileSpit[fileSpit.length - 1];
         String[] nameSplit = org.apache.commons.lang.StringUtils.split(name, ".");
         if (nameSplit == null || nameSplit.length < 2) {
-            throw new IllegalArgumentException("invalid path, uuid and extensionFile.");
+            throw new IllegalArgumentException("invalid path, baseName and extensionFile.");
         }
 
         FileRequest request = new FileRequest();

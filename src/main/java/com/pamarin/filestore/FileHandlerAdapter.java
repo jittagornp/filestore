@@ -3,6 +3,8 @@
  */
 package com.pamarin.filestore;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,9 +30,35 @@ public abstract class FileHandlerAdapter {
 
     protected abstract String getUserId(HttpServletRequest httpReq);
 
+    private String decideUserId(HttpServletRequest httpReq) {
+        if (httpReq.getParameter("token") != null) {
+            try {
+                return verifyShareToken(httpReq.getParameter("token"));
+            } catch (Exception ex) {
+                return getUserId(httpReq);
+            }
+        }
+
+        return getUserId(httpReq);
+    }
+
+    public String getShareToken(String userId) {
+        throw new UnsupportedOperationException("not support getShareToken(String userId).");
+    }
+
+    public String verifyShareToken(String token) {
+        throw new UnsupportedOperationException("not support verifyShareToken(String token).");
+    }
+
     private FileRequest convert(HttpServletRequest httpReq) {
         return getFileUploader().getAccessPathFileRequestConverter()
-                .convert(httpReq.getServletPath(), getUserId(httpReq));
+                .convert(httpReq.getServletPath(), decideUserId(httpReq));
+    }
+
+    private String data(String attribute, Object value) throws JsonProcessingException {
+        Map<String, Object> map = new HashMap<>();
+        map.put(attribute, value);
+        return new ObjectMapper().writeValueAsString(map);
     }
 
     @ResponseBody
@@ -36,7 +66,7 @@ public abstract class FileHandlerAdapter {
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq);
-        httpResp.getWriter().print(getFileUploader().getFileManager().exist(request));
+        httpResp.getWriter().print(data("exist", getFileUploader().getFileManager().exist(request)));
     }
 
     @ResponseBody
@@ -44,7 +74,7 @@ public abstract class FileHandlerAdapter {
     public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         FileRequest request = convert(httpReq);
-        httpResp.getWriter().print(getFileUploader().getFileManager().delete(request));
+        httpResp.getWriter().print(data("deleted", getFileUploader().getFileManager().delete(request)));
     }
 
     private void setHeader(File file, String fileName, HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
@@ -62,7 +92,7 @@ public abstract class FileHandlerAdapter {
 
     @ResponseBody
     @GetMapping("/{createdDate}/{uuid}/{name}")
-    public void loadFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
+    public void getFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         try {
             FileRequest request = convert(httpReq);
             File file = getFileUploader().getFileManager().read(request);
@@ -71,11 +101,18 @@ public abstract class FileHandlerAdapter {
                 ByteStreams.copy(inputStream, outputStream);
             }
         } catch (IOException ex) {
-            httpResp.setContentType("text/html");
+            httpResp.setContentType(MediaType.TEXT_HTML_VALUE);
             httpResp.setCharacterEncoding("utf-8");
             httpResp.getWriter().print("ไม่พบไฟล์ข้อมูล");
             httpResp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/{createdDate}/{uuid}/{name}", params = "share")
+    public void shareFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
+        httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        httpResp.getOutputStream().print(data("link", httpReq.getRequestURI() + "?token=" + getShareToken(decideUserId(httpReq))));
     }
 
     @ResponseBody
@@ -90,7 +127,7 @@ public abstract class FileHandlerAdapter {
         input.setFileSize(file.getSize());
         input.setInputStream(file.getInputStream());
         input.setMimeType(file.getContentType());
-        input.setUserId(getUserId(httpReq));
+        input.setUserId(decideUserId(httpReq));
         return input;
     }
 }

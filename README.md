@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/pamarin-tech/filestore.svg?branch=master)](https://travis-ci.org/pamarin-tech/filestore)  
 
-> java library สำหรับ spring framework ใช้เพื่อ อ่าน/เขียน/อัพโหลด file
+> java library สำหรับ spring framework ใช้เพื่อ อ่าน/เขียน/อัพโหลด (local) file
 
 # แนวคิดการออกแบบ  
 

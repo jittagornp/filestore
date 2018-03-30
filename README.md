@@ -55,6 +55,7 @@ File System จะเก็บเป็น
 > C:\filestore\temp\1\2018-03-29\77ab5f8406aa441da6ee6e80fe02f17a\file.pdf  
 
 - C:\filestore คือ root 
+- 1 คือ userId  
 - temp คือ context  
 - 2018-03-29 คือ createdDate  
 - 77ab5f8406aa441da6ee6e80fe02f17a คือ uuid  

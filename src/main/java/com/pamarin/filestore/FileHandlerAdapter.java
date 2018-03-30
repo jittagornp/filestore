@@ -24,17 +24,18 @@ public abstract class FileHandlerAdapter {
 
     protected abstract FileUploader getFileUploader();
 
-    protected abstract String getUserId();
+    protected abstract String getUserId(HttpServletRequest httpReq);
 
-    private FileRequest convert(String path) {
-        return getFileUploader().getAccessPathFileRequestConverter().convert(path, getUserId());
+    private FileRequest convert(HttpServletRequest httpReq) {
+        return getFileUploader().getAccessPathFileRequestConverter()
+                .convert(httpReq.getServletPath(), getUserId(httpReq));
     }
 
     @ResponseBody
     @GetMapping(value = "/{createdDate}/{uuid}/{name}", params = "exist")
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq.getServletPath());
+        FileRequest request = convert(httpReq);
         httpResp.getWriter().print(getFileUploader().getFileManager().exist(request));
     }
 
@@ -42,7 +43,7 @@ public abstract class FileHandlerAdapter {
     @DeleteMapping("/{createdDate}/{uuid}/{name}")
     public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq.getServletPath());
+        FileRequest request = convert(httpReq);
         httpResp.getWriter().print(getFileUploader().getFileManager().delete(request));
     }
 
@@ -63,7 +64,7 @@ public abstract class FileHandlerAdapter {
     @GetMapping("/{createdDate}/{uuid}/{name}")
     public void loadFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         try {
-            FileRequest request = convert(httpReq.getServletPath());
+            FileRequest request = convert(httpReq);
             File file = getFileUploader().getFileManager().read(request);
             setHeader(file, request.getBaseName() + "." + request.getExtensionFile(), httpReq, httpResp);
             try (InputStream inputStream = new FileInputStream(file); OutputStream outputStream = httpResp.getOutputStream()) {
@@ -79,17 +80,17 @@ public abstract class FileHandlerAdapter {
 
     @ResponseBody
     @PostMapping("/upload")
-    public UploadFileOutput uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        return getFileUploader().upload(convert(file));
+    public UploadFileOutput uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest httpReq) throws IOException {
+        return getFileUploader().upload(convert(file, httpReq));
     }
 
-    private UploadFileInput convert(MultipartFile file) throws IOException {
+    private UploadFileInput convert(MultipartFile file, HttpServletRequest httpReq) throws IOException {
         UploadFileInput input = new UploadFileInput();
         input.setFileName(file.getOriginalFilename());
         input.setFileSize(file.getSize());
         input.setInputStream(file.getInputStream());
         input.setMimeType(file.getContentType());
-        input.setUserId(getUserId());
+        input.setUserId(getUserId(httpReq));
         return input;
     }
 }

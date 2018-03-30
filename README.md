@@ -127,7 +127,7 @@ output
 **เข้าถึงไฟล์ (Access File)**  
 
 > http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}  /* สำหรับ download file */  
-> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?preview  
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?preview  /* สำหรับดู file /
 > http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?token=xxxxx /* สำหรับเข้าถึง file ที่มีการแชร์ด้วย token */  
 
 ตัวอย่าง

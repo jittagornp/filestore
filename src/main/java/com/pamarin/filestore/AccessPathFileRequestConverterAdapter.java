@@ -34,7 +34,7 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
         }
 
         if (!hasText(request.getBaseName())) {
-            throw new IllegalArgumentException("require displayName.");
+            throw new IllegalArgumentException("require baseName.");
         }
 
         return getContextPath() + FileStore.ACCESS_PATH_FILE_FORMAT

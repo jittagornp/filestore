@@ -130,6 +130,10 @@ output
 > http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?preview  
 > http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?token=xxxxx /* สำหรับเข้าถึง file ที่มีการแชร์ด้วย token */  
 
+ตัวอย่าง
+
+> /api/file/temp/2018-03-30/50b9f9c0f3404a7d93e9bf8ffedbbef6/test.pdf?preview  
+
 **ตรวจสอบไฟล์ (Check File)**
 
 > http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?exist   
@@ -141,6 +145,10 @@ output
     "existed": true
 }
 ```
+
+ตัวอย่าง
+
+> /api/file/temp/2018-03-30/50b9f9c0f3404a7d93e9bf8ffedbbef6/test.pdf?exist  
 
 **ลบไฟล์ (Delete File)**
 

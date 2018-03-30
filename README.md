@@ -118,7 +118,7 @@ File System จะเก็บเป็น
 
 ```
 - getStorePathFileRequestConverter() คือ ตัวแปลง local path จากข้อ 1
-- getRootPath()  คือ root directory ของ file เราจะเก็บ file upload นี้ไว้ที่ไหน เช่น /home/efiling เป็นต้น   
+- getRootPath()  คือ root directory ของ file เราจะเก็บ file upload นี้ไว้ที่ไหน เช่น C:\filestore เป็นต้น   
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempFileManager.java)

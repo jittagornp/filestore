@@ -50,9 +50,9 @@ public abstract class FileHandlerAdapter {
         throw new UnsupportedOperationException("not support verifyGrantToken(String token).");
     }
 
-    private FileRequest convert(HttpServletRequest httpReq) {
+    private FileRequest convert(HttpServletRequest httpReq, String userId) {
         return getFileUploader().getAccessPathFileRequestConverter()
-                .convert(httpReq.getServletPath(), decideUserId(httpReq));
+                .convert(httpReq.getServletPath(), userId);
     }
 
     private String data(String attribute, Object value) throws JsonProcessingException {
@@ -65,7 +65,7 @@ public abstract class FileHandlerAdapter {
     @GetMapping(value = "/{createdDate}/{uuid}/{name}", params = "exist")
     public void existFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq);
+        FileRequest request = convert(httpReq, decideUserId(httpReq));//allow for token
         httpResp.getWriter().print(data("existed", getFileUploader().getFileManager().exist(request)));
     }
 
@@ -73,7 +73,7 @@ public abstract class FileHandlerAdapter {
     @DeleteMapping("/{createdDate}/{uuid}/{name}")
     public void deleteFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        FileRequest request = convert(httpReq);
+        FileRequest request = convert(httpReq, getUserId(httpReq));
         httpResp.getWriter().print(data("deleted", getFileUploader().getFileManager().delete(request)));
     }
 
@@ -94,7 +94,7 @@ public abstract class FileHandlerAdapter {
     @GetMapping("/{createdDate}/{uuid}/{name}")
     public void getFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         try {
-            FileRequest request = convert(httpReq);
+            FileRequest request = convert(httpReq, decideUserId(httpReq));//allow for token
             File file = getFileUploader().getFileManager().read(request);
             setHeader(file, request.getBaseName() + "." + request.getExtensionFile(), httpReq, httpResp);
             try (InputStream inputStream = new FileInputStream(file); OutputStream outputStream = httpResp.getOutputStream()) {
@@ -112,7 +112,7 @@ public abstract class FileHandlerAdapter {
     @PostMapping(value = "/{createdDate}/{uuid}/{name}", params = "share")
     public void shareFile(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         httpResp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        httpResp.getOutputStream().print(data("link", httpReq.getRequestURI() + "?token=" + signGrantToken(decideUserId(httpReq))));
+        httpResp.getOutputStream().print(data("link", httpReq.getRequestURI() + "?token=" + signGrantToken(getUserId(httpReq))));
     }
 
     @ResponseBody
@@ -127,7 +127,7 @@ public abstract class FileHandlerAdapter {
         input.setFileSize(file.getSize());
         input.setInputStream(file.getInputStream());
         input.setMimeType(file.getContentType());
-        input.setUserId(decideUserId(httpReq));
+        input.setUserId(getUserId(httpReq));
         return input;
     }
 }

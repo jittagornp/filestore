@@ -97,6 +97,74 @@ File System จะเก็บเป็น
 
 > /api/file/temp/2018-03-29/6706609d98a3484fa3e0d5c5c5e0657a/เอกสารการจัดตั้งหน่วยงาน_ข้อ_3_.pdf  
 
+# API
+
+**Upload File**  
+
+> http `POST` => /{context}/upload
+
+form-data paremeter  
+```
+file : [FILE]  
+```
+
+output  
+```json
+{
+    "displayName": "test.pdf",
+    "mimeType": "application/pdf",
+    "fileSize": 147406,
+    "displayFileSize": "143 KB",
+    "accessPath": "/api/file/temp/2018-03-30/50b9f9c0f3404a7d93e9bf8ffedbbef6/test.pdf",
+    "storePath": "/temp/1/2018-03-30/50b9f9c0f3404a7d93e9bf8ffedbbef6/file.pdf",
+    "createdDate": "2018-03-30T13:29:23.025",
+    "numberOfPages": 1,
+    "numberOfPictures": 0,
+    "userId": "1"
+}
+```
+
+**Get File**  
+
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}  /* for download file */  
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?preview  
+
+**Check File**
+
+> http `GET` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?exist   
+
+output
+
+```json
+{
+    "exist": true
+}
+```
+
+**Delete File**
+
+> http `DELETE` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}
+
+output
+
+```json
+{
+    "deleted": true
+}
+```
+
+**Share File**
+
+> http `POST` => /{context}/{createdDate}/{uuid}/{baseName}.{extension}?share
+
+output
+
+```json
+{
+    "link": "/api/file/temp/2018-03-30/0c38f989a970442fa4b03c071173edfc/test.pdf?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpc3MiOiIyIn0.r1nNDri0AJ73DMst30dTPLtIKq6sw2BpjJNLzghKt__LypvRpiiSsgNgz8NCuuyU"
+}
+```
+
 # วิธีใช้งาน
 
 ### 1. ให้ extends abstract class `StorePathFileRequestConverterAdapter`

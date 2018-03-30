@@ -50,6 +50,18 @@ File System จะเก็บเป็น
 ------------------- + /{uuid}  
 ------------------------ + /file.{extension}  
 
+**ตัวอย่าง**   
+
+> C:\filestore\temp\1\2018-03-29\77ab5f8406aa441da6ee6e80fe02f17a\file.pdf  
+
+- C:\filestore คือ root 
+- temp คือ context  
+- 2018-03-29 คือ createdDate  
+- 77ab5f8406aa441da6ee6e80fe02f17a คือ uuid  
+- file.pdf คือ ไฟล์ที่จัดเก็บ  
+
+**คำอธิบาย**
+
 1. ขึ้นต้นด้วย `context` เพราะต้องการแยกประเภทของไฟล์ เช่น /temp หรือ /perm เป็นต้น  
 
 2. ต่อมา `userId` 

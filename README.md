@@ -152,7 +152,7 @@ File System จะเก็บเป็น
 
 ```
 - getFileUploader()  คือ file uploader จากข้อ 4   
-- getUserId()  คือ userId ปัจจุบันที่กำลัง Login อยู่  
+- getUserId(HttpServletRequest httpReq)  คือ userId ปัจจุบันที่กำลัง Login อยู่  
 ```
 
 [ตัวอย่าง](https://github.com/pamarin-tech/filestore-example/blob/master/src/main/java/com/pamarin/filestore/example/TempFileHandlerCtrl.java)  

@@ -81,17 +81,13 @@ public abstract class AccessPathFileRequestConverterAdapter implements AccessPat
             throw new IllegalArgumentException("invalid path, uuid and extensionFile.");
         }
 
-        try {
-            FileRequest request = new FileRequest();
-            request.setUuid(uuid);
-            request.setCreatedDate(FileStore.parseDate(createdDate));
-            request.setBaseName(nameSplit[0]);
-            request.setExtensionFile(nameSplit[1]);
-            request.setUserId(userId);
-            return request;
-        } catch (DateTimeParseException ex) {
-            throw new IllegalArgumentException("invalid path, createdDate.");
-        }
+        FileRequest request = new FileRequest();
+        request.setUuid(uuid);
+        request.setCreatedDate(FileStore.parseDate(createdDate));
+        request.setBaseName(nameSplit[0]);
+        request.setExtensionFile(nameSplit[1]);
+        request.setUserId(userId);
+        return request;
     }
 
     public static String getHttpPath(String url) {
